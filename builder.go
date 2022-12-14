@@ -52,3 +52,36 @@ func (b *builder) choose() {
 func (b *builder) wins() bool {
 	return b.rand.Intn(b.in) < b.odd
 }
+
+type resultBuilder[T any] struct {
+	odd int
+	in  int
+
+	success func() T
+	failure func() T
+
+	rand *rand.Rand
+}
+
+func (b *resultBuilder[T]) Odds(odd int, in int) *resultBuilder[T] {
+	b.odd = odd
+	b.in = in
+	return b
+}
+
+func (b *resultBuilder[T]) Success(fn func() T) *resultBuilder[T] {
+	b.success = fn
+	return b
+}
+
+func (b *resultBuilder[T]) Choose() T {
+	if b.wins() {
+		return b.success()
+	} else {
+		return b.failure()
+	}
+}
+
+func (b *resultBuilder[T]) wins() bool {
+	return b.rand.Intn(b.in) < b.odd
+}

@@ -42,3 +42,13 @@ func TestItCanRunMultiple(t *testing.T) {
 		t.Error("Expected `count` to be `2`.")
 	}
 }
+
+func TestItReturnsResults(t *testing.T) {
+	result := lottery.Result[string]().Odds(1, 1).Success(func() string {
+		return "hello"
+	}).Choose()
+
+	if result != "hello" {
+		t.Error("Expected `result` to be `hello`.")
+	}
+}

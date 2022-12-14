@@ -22,3 +22,14 @@ func Odds(odd int, in int) *builder {
 		rand: rand.New(s),
 	}
 }
+
+func Result[T any]() *resultBuilder[T] {
+	s := rand.NewSource(time.Now().UnixMicro())
+
+	return &resultBuilder[T]{
+		odd: 0,
+		in:  1,
+
+		rand: rand.New(s),
+	}
+}
